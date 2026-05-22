@@ -1,0 +1,140 @@
+@import url(https://fonts.googleapis.com/css?family=Poppins:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic);
+
+* {
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+}
+
+@import "tailwindcss";
+
+/* =========================
+   DESIGN SYSTEM
+========================= */
+
+@theme {
+  /* COLORS */
+  --color-primary: #2563eb;
+  --color-primary-dark: #1d4ed8;
+  --color-secondary: #f97316;
+
+  --color-dark: #0f172a;
+  --color-gray: #64748b;
+  --color-light: #f8fafc;
+  --color-white: #ffffff;
+
+  /* FONT */
+  --font-main: "Inter", sans-serif;
+
+  /* RADIUS */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  /* SHADOW */
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================
+   GLOBAL STYLES
+========================= */
+
+body {
+  background: var(--color-light);
+  color: var(--color-dark);
+  font-family: var(--font-main);
+}
+
+/* =========================
+   REUSABLE COMPONENTS
+========================= */
+
+@layer components {
+  /* CONTAINER */
+  .container-layout {
+    @apply max-w-328 mx-auto px-8;
+  }
+
+  /* BUTTONS */
+  .primary-btn {
+    @apply px-4 py-2 text-white font-medium transition;
+    background: var(--color-primary);
+    border-radius: var(--radius-md);
+  }
+
+  .primary-btn:hover {
+    background: var(--color-primary-dark);
+  }
+
+  .secondary-btn {
+    @apply px-4 py-2 text-white font-medium transition;
+    background: var(--color-secondary);
+    border-radius: var(--radius-md);
+  }
+
+  /* CARD */
+  .card {
+    @apply bg-white p-4;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* INPUT */
+  .input-field {
+    @apply w-full px-4 py-3 outline-none border border-gray-300;
+    border-radius: var(--radius-md);
+  }
+
+  .input-field:focus {
+    border-color: var(--color-primary);
+  }
+
+  /* TITLES */
+  .section-title {
+    @apply text-3xl font-bold;
+    color: var(--color-dark);
+  }
+
+  .paragraph {
+    @apply text-base leading-7;
+    color: var(--color-gray);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-slideDown {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out;
+}
+.animate-slideUp {
+  animation: slideUp 0.3s ease-out;
+}
