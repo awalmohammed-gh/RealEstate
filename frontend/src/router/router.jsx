@@ -8,6 +8,8 @@ import Contact from "../pages/Contact"
 import About from "../pages/About"
 import Agents from "../pages/Agents"
 import AgentsProperties from "../pages/AgentsProperties"
+import Wishlist from "../pages/Wishlist"
+import Booking from "../pages/Booking"
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -18,6 +20,8 @@ const router = createBrowserRouter(
             <Route path="house-details/:id" element={<HouseDetails/>}/>
             <Route path="house-category/:category" element={<HouseCategories/>}/>
             <Route path="agent" element={<Agents/>}/>
+            <Route path="wishlist" element={<Wishlist/>}/>
+            <Route path="booking" element={<Booking/>}/>
             <Route path="agent-details/:id" element={<AgentsProperties/>}/>
             <Route path="contact" element={<Contact/>}/>
             <Route path="about" element={<About/>}/>

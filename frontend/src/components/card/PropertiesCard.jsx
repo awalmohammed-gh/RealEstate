@@ -1,12 +1,14 @@
 import { MapPin, Bed, Bath, Square, TrendingUp, Heart, Eye } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { useHouseForm } from "../../context/HouseContextProvider";
 
 const PropertiesCard = ({ house }) => {
-  const [isLiked, setIsLiked] = useState(false);
+  // const [isLiked, setIsLiked] = useState(false);
   const [isImageHovered, setIsImageHovered] = useState(false);
   const navigate = useNavigate();
+  const { wishList, setWishList } = useHouseForm();
 
   const { id, title, pricing, location, property, features, images } = house;
 
@@ -22,10 +24,10 @@ const PropertiesCard = ({ house }) => {
       ? `₵${pricing.perNight.toLocaleString()}/night`
       : `₵${pricing.perMonth?.toLocaleString()}/month`;
 
-  const handleLikeClick = (e) => {
-    e.preventDefault();
-    setIsLiked(!isLiked);
-  };
+  // const handleLikeClick = (e) => {
+  //   e.preventDefault();
+  //   setIsLiked(!isLiked);
+  // };
 
   return (
     <motion.div
@@ -36,10 +38,10 @@ const PropertiesCard = ({ house }) => {
       viewport={{ once: true }}
       className="group"
     >
-      <Link to={`/house-details/${id}`} onClick={handleScroll}>
+      <div>
         <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 cursor-pointer">
           {/* Image Container */}
-          <div 
+          <div
             className="relative h-60 overflow-hidden"
             onMouseEnter={() => setIsImageHovered(true)}
             onMouseLeave={() => setIsImageHovered(false)}
@@ -72,18 +74,26 @@ const PropertiesCard = ({ house }) => {
 
             {/* Like Button - Visible on hover only */}
             <motion.button
-              onClick={handleLikeClick}
+              onClick={() => {
+                setWishList((prev) =>
+                  prev.includes(id)
+                    ? prev.filter((item) => item !== id)
+                    : [...prev, id],
+                );
+              }}
               initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ 
-                opacity: isImageHovered ? 1 : 0, 
-                scale: isImageHovered ? 1 : 0.8 
+              animate={{
+                opacity: isImageHovered ? 1 : 0,
+                scale: isImageHovered ? 1 : 0.8,
               }}
               transition={{ duration: 0.2 }}
               className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-md hover:scale-110 transition-transform duration-200 z-100"
             >
               <Heart
                 className={`w-4 h-4 ${
-                  isLiked ? "text-red-500 fill-red-500" : "text-gray-600"
+                  wishList.includes(id)
+                    ? "text-red-500 fill-red-500"
+                    : "text-gray-600"
                 }`}
               />
             </motion.button>
@@ -101,10 +111,11 @@ const PropertiesCard = ({ house }) => {
               className="absolute inset-0 bg-black/60 flex items-center justify-center z-20"
             >
               <motion.button
+              onClick={() =>{ navigate(`/house-details/${id}`); handleScroll()}}
                 initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ 
-                  scale: isImageHovered ? 1 : 0.8, 
-                  opacity: isImageHovered ? 1 : 0 
+                animate={{
+                  scale: isImageHovered ? 1 : 0.8,
+                  opacity: isImageHovered ? 1 : 0,
                 }}
                 transition={{ duration: 0.3, delay: 0.1 }}
                 className="flex items-center gap-2 bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-blue-600 hover:text-white transition-all duration-300 shadow-lg"
@@ -168,7 +179,7 @@ const PropertiesCard = ({ house }) => {
             </div>
           </div>
         </div>
-      </Link>
+      </div>
     </motion.div>
   );
 };

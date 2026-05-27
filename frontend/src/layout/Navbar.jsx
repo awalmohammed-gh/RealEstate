@@ -1,49 +1,31 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import {
-  ChevronDown,
-  Heart,
-  User,
-  LogOut,
-  Menu,
-  X,
-  Home,
-  List,
-  Layers,
-  Phone,
-  Info,
-  Key,
-  DollarSign,
-  Calendar,
-  Briefcase,
-  Settings,
-  HelpCircle,
-  User2,
-} from "lucide-react";
+import { ChevronDown, Heart, User, LogOut, Menu, X } from "lucide-react";
 import { useHouseForm } from "../context/HouseContextProvider";
 
-const Navbar = ({onOpen}) => {
-  const { isLoggedIn, setIsLoggedIn, setCurrentState } = useHouseForm();
+const Navbar = ({ onOpen }) => {
+  const { isLoggedIn, setIsLoggedIn, setCurrentState, wishList } =
+    useHouseForm();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
 
   const navLinks = [
-    { id: 1, name: "Home", path: "/", icon: Home },
-    { id: 2, name: "Listing", path: "/listing", icon: List },
+    { id: 1, name: "Home", path: "/" },
+    { id: 2, name: "Listing", path: "/listing" },
     {
       id: 3,
       name: "Category",
-      icon: Layers,
       subLink: [
-        { id: 1, name: "Rent", path: "/house-category/rent", icon: Key },
-        { id: 2, name: "Sale", path: "/house-category/sale", icon: DollarSign },
-        { id: 3, name: "Booking", path: "/house-category/booking", icon: Calendar },
+        { id: 1, name: "Rent", path: "/house-category/rent" },
+        { id: 2, name: "Sale", path: "/house-category/sale" },
+        { id: 3, name: "Booking", path: "/house-category/booking" },
       ],
     },
-    { id: 4, name: "Agent", path: "/agent", icon: User2 },
-    { id: 4, name: "Contact", path: "/contact", icon: Phone },
-    { id: 5, name: "About", path: "/about", icon: Info },
+    { id: 4, name: "Booking", path: "/booking" },
+    { id: 5, name: "Agent", path: "/agent" },
+    { id: 6, name: "Contact", path: "/contact" },
+    { id: 7, name: "About", path: "/about" },
   ];
 
   return (
@@ -57,8 +39,8 @@ const Navbar = ({onOpen}) => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
-            {navLinks.map((link) => (
-              <div key={link.id} className="relative group">
+            {navLinks.map((link, index) => (
+              <div key={index} className="relative group">
                 {link.subLink ? (
                   <div>
                     <button className="flex items-center gap-1 text-gray-600 hover:text-blue-600 transition-colors font-medium">
@@ -76,9 +58,8 @@ const Navbar = ({onOpen}) => {
                           <NavLink
                             key={sub.id}
                             to={sub.path}
-                            className="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 hover:text-blue-600 hover:bg-gray-50 transition-colors"
+                            className="block px-4 py-2 text-sm text-gray-600 hover:text-blue-600 hover:bg-gray-50 transition-colors"
                           >
-                            <sub.icon size={14} />
                             {sub.name}
                           </NavLink>
                         ))}
@@ -89,14 +70,13 @@ const Navbar = ({onOpen}) => {
                   <NavLink
                     to={link.path}
                     className={({ isActive }) =>
-                      `flex items-center gap-1 font-medium transition-colors ${
+                      `font-medium transition-colors ${
                         isActive
                           ? "text-blue-600"
                           : "text-gray-600 hover:text-blue-600"
                       }`
                     }
                   >
-                    <link.icon size={16} />
                     {link.name}
                   </NavLink>
                 )}
@@ -105,7 +85,7 @@ const Navbar = ({onOpen}) => {
           </div>
 
           {/* Right Section */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-8">
             {/* Wishlist Icon */}
             <NavLink to="/wishlist" className="relative">
               <Heart
@@ -113,7 +93,7 @@ const Navbar = ({onOpen}) => {
                 className="text-gray-600 hover:text-blue-600 transition-colors"
               />
               <span className="absolute -top-2 -right-2 w-5 h-5 bg-blue-600 text-white text-xs rounded-full flex items-center justify-center">
-                0
+                {wishList.length}
               </span>
             </NavLink>
 
@@ -149,27 +129,24 @@ const Navbar = ({onOpen}) => {
                       <NavLink
                         to="/booking"
                         onClick={() => setIsUserDropdownOpen(false)}
-                        className="flex items-center gap-3 px-4 py-2 text-sm text-gray-600 hover:text-blue-600 hover:bg-gray-50 transition-colors"
+                        className="block px-4 py-2 text-sm text-gray-600 hover:text-blue-600 hover:bg-gray-50 transition-colors"
                       >
-                        <Calendar size={16} />
                         My Bookings
                       </NavLink>
 
                       <NavLink
                         to="/account"
                         onClick={() => setIsUserDropdownOpen(false)}
-                        className="flex items-center gap-3 px-4 py-2 text-sm text-gray-600 hover:text-blue-600 hover:bg-gray-50 transition-colors"
+                        className="block px-4 py-2 text-sm text-gray-600 hover:text-blue-600 hover:bg-gray-50 transition-colors"
                       >
-                        <Settings size={16} />
                         My Account
                       </NavLink>
 
                       <NavLink
                         to="/agent"
                         onClick={() => setIsUserDropdownOpen(false)}
-                        className="flex items-center gap-3 px-4 py-2 text-sm text-gray-600 hover:text-blue-600 hover:bg-gray-50 transition-colors"
+                        className="block px-4 py-2 text-sm text-gray-600 hover:text-blue-600 hover:bg-gray-50 transition-colors"
                       >
-                        <Briefcase size={16} />
                         Become an Agent
                       </NavLink>
 
@@ -178,9 +155,8 @@ const Navbar = ({onOpen}) => {
                       <NavLink
                         to="/help"
                         onClick={() => setIsUserDropdownOpen(false)}
-                        className="flex items-center gap-3 px-4 py-2 text-sm text-gray-600 hover:text-blue-600 hover:bg-gray-50 transition-colors"
+                        className="block px-4 py-2 text-sm text-gray-600 hover:text-blue-600 hover:bg-gray-50 transition-colors"
                       >
-                        <HelpCircle size={16} />
                         Help Center
                       </NavLink>
 
@@ -189,9 +165,8 @@ const Navbar = ({onOpen}) => {
                           setIsLoggedIn(false);
                           setIsUserDropdownOpen(false);
                         }}
-                        className="flex items-center gap-3 px-4 py-2 text-sm text-red-500 hover:bg-red-50 transition-colors w-full text-left"
+                        className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-red-50 transition-colors"
                       >
-                        <LogOut size={16} />
                         Logout
                       </button>
                     </div>
@@ -201,7 +176,7 @@ const Navbar = ({onOpen}) => {
                         <button
                           onClick={() => {
                             onOpen();
-                            setCurrentState('login')
+                            setCurrentState("login");
                             setIsUserDropdownOpen(false);
                           }}
                           className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
@@ -209,7 +184,10 @@ const Navbar = ({onOpen}) => {
                           Login
                         </button>
                         <button
-                          onClick={() => {setCurrentState("signup"); onOpen()}}
+                          onClick={() => {
+                            setCurrentState("signup");
+                            onOpen();
+                          }}
                           className="w-full border-2 border-blue-600 text-blue-600 py-2 rounded-lg hover:bg-blue-50 transition-colors text-sm font-medium"
                         >
                           Sign Up
@@ -250,10 +228,7 @@ const Navbar = ({onOpen}) => {
                         }
                         className="flex items-center justify-between w-full px-4 py-2 text-gray-600 hover:text-blue-600 transition-colors"
                       >
-                        <span className="flex items-center gap-2">
-                          <link.icon size={18} />
-                          {link.name}
-                        </span>
+                        <span>{link.name}</span>
                         <ChevronDown
                           size={16}
                           className={`transition-transform ${openDropdown === link.id ? "rotate-180" : ""}`}
@@ -266,9 +241,8 @@ const Navbar = ({onOpen}) => {
                               key={sub.id}
                               to={sub.path}
                               onClick={() => setIsMobileMenuOpen(false)}
-                              className="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-lg transition-colors"
+                              className="block px-4 py-2 text-sm text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-lg transition-colors"
                             >
-                              <sub.icon size={14} />
                               {sub.name}
                             </NavLink>
                           ))}
@@ -280,21 +254,20 @@ const Navbar = ({onOpen}) => {
                       to={link.path}
                       onClick={() => setIsMobileMenuOpen(false)}
                       className={({ isActive }) =>
-                        `flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+                        `block px-4 py-2 rounded-lg transition-colors ${
                           isActive
                             ? "bg-blue-50 text-blue-600"
                             : "text-gray-600 hover:bg-gray-50 hover:text-blue-600"
                         }`
                       }
                     >
-                      <link.icon size={18} />
                       {link.name}
                     </NavLink>
                   )}
                 </div>
               ))}
 
-              {/* Mobile Auth Section - Simplified since we have dropdown */}
+              {/* Mobile Auth Section */}
               <div className="pt-4 mt-4 border-t border-gray-200">
                 {isLoggedIn ? (
                   <div className="space-y-2">
@@ -309,25 +282,22 @@ const Navbar = ({onOpen}) => {
                     <NavLink
                       to="/booking"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-blue-600 transition-colors"
+                      className="block px-4 py-2 text-gray-600 hover:text-blue-600 transition-colors"
                     >
-                      <Calendar size={18} />
                       My Bookings
                     </NavLink>
                     <NavLink
                       to="/account"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-blue-600 transition-colors"
+                      className="block px-4 py-2 text-gray-600 hover:text-blue-600 transition-colors"
                     >
-                      <Settings size={18} />
                       My Account
                     </NavLink>
                     <NavLink
                       to="/agent"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-blue-600 transition-colors"
+                      className="block px-4 py-2 text-gray-600 hover:text-blue-600 transition-colors"
                     >
-                      <Briefcase size={18} />
                       Become an Agent
                     </NavLink>
                     <button
@@ -335,9 +305,8 @@ const Navbar = ({onOpen}) => {
                         setIsLoggedIn(false);
                         setIsMobileMenuOpen(false);
                       }}
-                      className="flex items-center gap-2 px-4 py-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors w-full"
+                      className="block w-full text-left px-4 py-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                     >
-                      <LogOut size={18} />
                       Logout
                     </button>
                   </div>

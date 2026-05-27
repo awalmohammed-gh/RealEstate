@@ -3,6 +3,7 @@ import Navbar from "./Navbar"
 import Footer from "./Footer"
 import { useState } from "react"
 import LoginForm from "../pages/LoginForm"
+import { Toaster } from "react-hot-toast";
 
 
 
@@ -12,6 +13,7 @@ const SystemLayout = () => {
   return (
     <div>
     <Navbar onOpen={() => setOpenLoginForm(true)}/>
+    <Toaster/>
       <Outlet/>
       <Footer/>
       {openLoginForm && <LoginForm onClose={() => setOpenLoginForm(false)}/>}

@@ -6,6 +6,23 @@ export const HouseContextProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [search, setSearch] = useState("");
   const [currentState, setCurrentState] = useState("login");
+  const [wishList, setWishList] = useState([]);
+  const [addToBook, setAddToBook] = useState({});
+
+  const handleAddToBooking = (itemId) =>{
+      setAddToBook((prev) =>({
+        ...prev,
+        [itemId]:true
+      }))
+  }
+
+  const removeFromBooking = (itemId) =>{
+     setAddToBook((prev) =>{
+       const copy = {...prev};
+       delete copy[itemId];
+       return copy
+     })
+  }
 
   const house = {
     isLoggedIn,
@@ -15,6 +32,11 @@ export const HouseContextProvider = ({ children }) => {
     setSearch,
     currentState,
     setCurrentState,
+    wishList,
+    setWishList,
+    addToBook,
+    handleAddToBooking,
+    removeFromBooking
   };
   return (
     <HouseContext.Provider value={house}>{children}</HouseContext.Provider>
