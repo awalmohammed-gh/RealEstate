@@ -21,7 +21,7 @@ const router = createBrowserRouter(
             <Route path="house-category/:category" element={<HouseCategories/>}/>
             <Route path="agent" element={<Agents/>}/>
             <Route path="wishlist" element={<Wishlist/>}/>
-            <Route path="booking" element={<Booking/>}/>
+            <Route path="booking/:type/:id" element={<Booking/>}/>
             <Route path="agent-details/:id" element={<AgentsProperties/>}/>
             <Route path="contact" element={<Contact/>}/>
             <Route path="about" element={<About/>}/>

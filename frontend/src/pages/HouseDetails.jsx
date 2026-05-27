@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useHouseForm } from "../context/HouseContextProvider";
 import { useEffect, useState } from "react";
 import {
@@ -33,6 +33,7 @@ const HouseDetails = () => {
   const { properties, handleAddToBooking, wishList, setWishList } = useHouseForm();
   const [houseData, setHouseData] = useState(null);
   const [thumbnail, setThumbnail] = useState("");
+  const navigate = useNavigate()
   // const [isLiked, setIsLiked] = useState(false);
   const [makeMessage, setMakeMessage] = useState({
     name: "",
@@ -47,6 +48,14 @@ const HouseDetails = () => {
       [name]: value,
     }));
   };
+
+const handleBooking = () => {
+  handleAddToBooking(houseData.id);
+
+  navigate(`/booking/${houseData.property.type.toLowerCase()}/${houseData.id}`);
+
+  toast.success("Request sent");
+};
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -315,14 +324,15 @@ const HouseDetails = () => {
 
             {/* Action Button - Buy Now / Rent Now / Book Now */}
             <button
-              onClick={() => {
-                handleAddToBooking(houseData.id);
-                toast.success("Request Sent")
-              }}
+              onClick={handleBooking}
               className={`w-full flex items-center justify-center gap-2 ${buttonConfig.color} text-white py-3 rounded-md font-semibold transition-colors mb-4`}
             >
               <buttonConfig.icon size={18} />
-              {buttonConfig.text}
+              {houseData.property.type === "Hotel"
+                ? "Book Stay"
+                : houseData.property.type === "Rent"
+                  ? "Reserve Property"
+                  : "Schedule Viewing"}
             </button>
 
             {/* Agent Card */}

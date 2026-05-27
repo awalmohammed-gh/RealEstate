@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 import { properties } from "../assets/house_data";
 
 const HouseContext = createContext();
@@ -23,6 +23,15 @@ export const HouseContextProvider = ({ children }) => {
        return copy
      })
   }
+
+  const totalAmount = useMemo(() =>{
+      for(const itemId in addToBook){
+         if(addToBook[itemId] > 0){
+           const findProperty = properties.find((item) => item.pricing * addToBook[itemId]);
+           return findProperty;
+         }
+      }
+  },[addToBook])
 
   const house = {
     isLoggedIn,
