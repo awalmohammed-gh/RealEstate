@@ -1,11 +1,7 @@
 import Booking from './Booking'
 
 const MyBookingPage = () => {
-  return (
-    <div>
-      <Booking/>
-    </div>
-  )
+  return <Booking/>
 }
 
 export default MyBookingPage
