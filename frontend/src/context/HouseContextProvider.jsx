@@ -24,14 +24,21 @@ export const HouseContextProvider = ({ children }) => {
      })
   }
 
-  const totalAmount = useMemo(() =>{
-      for(const itemId in addToBook){
-         if(addToBook[itemId] > 0){
-           const findProperty = properties.find((item) => item.pricing * addToBook[itemId]);
-           return findProperty;
-         }
-      }
-  },[addToBook])
+const totalAmount = useMemo(() => {
+  return properties.reduce((total, property) => {
+    if (addToBook[property.id]) {
+      const price =
+        property.pricing?.amount ||
+        property.pricing?.perNight ||
+        property.pricing?.perMonth ||
+        0;
+
+      return total + price;
+    }
+
+    return total;
+  }, 0);
+}, [addToBook]);
 
   const house = {
     isLoggedIn,
@@ -45,7 +52,8 @@ export const HouseContextProvider = ({ children }) => {
     setWishList,
     addToBook,
     handleAddToBooking,
-    removeFromBooking
+    removeFromBooking,
+    totalAmount
   };
   return (
     <HouseContext.Provider value={house}>{children}</HouseContext.Provider>
