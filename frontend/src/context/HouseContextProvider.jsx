@@ -1,5 +1,5 @@
 import { createContext, useContext, useMemo, useState } from "react";
-import { properties } from "../assets/house_data";
+import { plans, properties } from "../assets/house_data";
 
 const HouseContext = createContext();
 export const HouseContextProvider = ({ children }) => {
@@ -53,7 +53,8 @@ const totalAmount = useMemo(() => {
     addToBook,
     handleAddToBooking,
     removeFromBooking,
-    totalAmount
+    totalAmount,
+    plans
   };
   return (
     <HouseContext.Provider value={house}>{children}</HouseContext.Provider>

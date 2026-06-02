@@ -143,7 +143,7 @@ const Navbar = ({ onOpen }) => {
                       </NavLink>
 
                       <NavLink
-                        to="/agent"
+                        to="/agent-sub"
                         onClick={() => setIsUserDropdownOpen(false)}
                         className="block px-4 py-2 text-sm text-gray-600 hover:text-blue-600 hover:bg-gray-50 transition-colors"
                       >

@@ -23,6 +23,45 @@ import apartImg4 from "./3bedRoomImg.jpg"
 import apartImg5 from "./duplexImg.jpg"
 import apartImg6 from "./penthouseImg.jpg"
 
+
+export const plans = [
+
+  {
+    id: "starter",
+    title:"Stater",
+    name: "6 Months Access",
+    price: "GHS250",
+    description: "Full access to the platform for 6 months.",
+    features: [
+      "Add unlimited properties",
+      "Manage property listings",
+      "Receive and view inquiries",
+      "Track payments",
+      "Agent dashboard access",
+      "Profile management",
+      "Property analytics",
+      "6 months subscription period",
+    ],
+  },
+  {
+    id: "growth",
+    title:"Growth",
+    name: "12 Months Access",
+    price: "GHS500",
+    description: "Full access to the platform for 12 months.",
+    features: [
+      "Add unlimited properties",
+      "Manage property listings",
+      "Receive and view inquiries",
+      "Track payments",
+      "Agent dashboard access",
+      "Profile management",
+      "Property analytics",
+      "12 months subscription period",
+    ],
+  },
+];
+
 export const heroContent = [
   {
     title: "Discover Stays That Feel Like Home",
