@@ -1,11 +1,17 @@
-import { Outlet } from "react-router-dom"
+import { Outlet } from "react-router-dom";
+import Sidebar from "./Sidebar";
 
 const AgentLayout = () => {
   return (
-    <div>
-      <Outlet/>
+    <div className="min-h-screen bg-light">
+      <Sidebar />
+      <main className="lg:ml-72 min-h-screen">
+        <div className="p-6">
+          <Outlet />
+        </div>
+      </main>
     </div>
-  )
-}
+  );
+};
 
-export default AgentLayout
+export default AgentLayout;

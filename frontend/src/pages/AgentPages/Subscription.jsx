@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useHouseForm } from "../context/HouseContextProvider";
+import { useHouseForm } from "../../context/HouseContextProvider";
 import {
   Crown,
   CheckCircle,
@@ -13,7 +13,7 @@ import {
 import toast from "react-hot-toast";
 import { useState } from "react";
 
-const AgentSubscription = () => {
+const Subscription = () => {
   const { plans } = useHouseForm();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -227,4 +227,4 @@ const AgentSubscription = () => {
   );
 };
 
-export default AgentSubscription;
+export default Subscription;

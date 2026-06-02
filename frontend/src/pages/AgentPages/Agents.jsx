@@ -1,7 +1,7 @@
-import AgentCard from "../components/card/AgentCard";
-import { useHouseForm } from "../context/HouseContextProvider";
-import { Users, Phone, Mail, MapPin, Star } from "lucide-react";
+import { Users } from "lucide-react";
 import { motion } from "motion/react";
+import AgentCard from "../../components/card/AgentCard";
+import { useHouseForm } from "../../context/HouseContextProvider";
 
 const Agents = () => {
   const { properties } = useHouseForm();
