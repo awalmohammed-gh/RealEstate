@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useHouseForm } from "../context/HouseContextProvider";
 import { X, Mail, Lock, User, Eye, EyeOff, User2 } from "lucide-react";
+import { loginAccount, registerAccount } from "../api/authApis";
+import toast from "react-hot-toast";
 
 const LoginForm = ({ onClose }) => {
   const [formData, setFormData] = useState({
@@ -12,7 +14,7 @@ const LoginForm = ({ onClose }) => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { currentState, setCurrentState, setIsLoggedIn } = useHouseForm();
+  const { currentState, setCurrentState, setIsLoggedIn, userData } = useHouseForm();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -22,27 +24,33 @@ const LoginForm = ({ onClose }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsLoading(true);
+ const handleSubmit = async (e) => {
+   e.preventDefault();
 
-    // Simulate API call
-    setTimeout(() => {
-      if (currentState === "login") {
-        console.log("Login Data:", {
-          email: formData.email,
-          password: formData.password,
-        });
+   try {
+     setIsLoading(true);
 
-        setIsLoggedIn(true)
-      } else {
-        console.log("Signup Data:", formData);
-        setIsLoggedIn(true);
-      }
-      setIsLoading(false);
-      onClose();
-    }, 1000);
-  };
+     if (currentState === "login") {
+       const res = await loginAccount(formData);
+       userData()
+       toast.success(res?.data?.message || "Login successful");
+       setIsLoggedIn(true);
+     } else {
+       const res = await registerAccount(formData);
+       userData();
+       toast.success(res?.data?.message || "Account created successfully");
+       setIsLoggedIn(true);
+     }
+
+     onClose();
+   } catch (error) {
+     console.error(error);
+
+     toast.error(error?.response?.data?.message || "Something went wrong");
+   } finally {
+     setIsLoading(false);
+   }
+ };
 
   const getInitials = () => {
     if (currentState === "signup" && formData.firstName && formData.lastName) {

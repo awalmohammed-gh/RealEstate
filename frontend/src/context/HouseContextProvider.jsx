@@ -1,5 +1,7 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { plans, properties } from "../assets/house_data";
+import toast from "react-hot-toast";
+import { getUserInfo, logoutAccount, userAuth } from "../api/authApis";
 
 const HouseContext = createContext();
 export const HouseContextProvider = ({ children }) => {
@@ -8,6 +10,7 @@ export const HouseContextProvider = ({ children }) => {
   const [currentState, setCurrentState] = useState("login");
   const [wishList, setWishList] = useState([]);
   const [addToBook, setAddToBook] = useState({});
+  const [user, setUser] = useState(null)
 
   const handleAddToBooking = (itemId) =>{
       setAddToBook((prev) =>({
@@ -40,6 +43,58 @@ const totalAmount = useMemo(() => {
   }, 0);
 }, [addToBook]);
 
+ const logoutUser = async () => {
+   try {
+     const { data } = await logoutAccount();
+
+     if (data?.success) {
+       toast.success(data.message);
+       setIsLoggedIn(false);
+       setUser(null)
+     } else {
+       toast.error(data.message || "Logout failed");
+     }
+   } catch (error) {
+     console.error(error);
+     toast.error(error?.response?.data?.message || "Something went wrong");
+   }
+ };
+
+const userData = async () => {
+  try {
+    const { data } = await getUserInfo();
+
+    if (data?.success) {
+      setUser(data.user);
+    } else {
+      toast.error(data.message);
+    }
+  } catch (error) {
+    console.error(error);
+    toast.error(error?.response?.data?.message || "Something went wrong");
+  }
+};
+
+const checkUser = async () => {
+  try {
+    const { data } = await userAuth();
+
+    if (data?.success) {
+      await userData();
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  } catch (error) {
+    console.error(error);
+    setIsLoggedIn(false);
+  }
+};
+
+useEffect(() => {
+  checkUser();
+}, []);
+
   const house = {
     isLoggedIn,
     setIsLoggedIn,
@@ -54,7 +109,10 @@ const totalAmount = useMemo(() => {
     handleAddToBooking,
     removeFromBooking,
     totalAmount,
-    plans
+    plans,
+    logoutUser,
+    user,
+    userData
   };
   return (
     <HouseContext.Provider value={house}>{children}</HouseContext.Provider>
