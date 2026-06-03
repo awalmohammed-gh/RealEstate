@@ -10,7 +10,6 @@ import userRouter from "./routes/userRoute.js";
 const app = express();
 
 
-
 //middleware
 app.use(
   cors({

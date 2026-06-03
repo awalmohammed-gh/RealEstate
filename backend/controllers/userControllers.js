@@ -91,8 +91,6 @@ export const userRegisterAccount = async (req, res) => {
   }
 };
 
-
-
 //function to login account
 export const userLoginAccount = async (req, res) => {
   try {
@@ -147,7 +145,7 @@ export const userLoginAccount = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000,
     });
 
-    res.status(200).json({success:true, message:"User login successfully"})
+    res.status(200).json({ success: true, message: "User login successfully" });
   } catch (error) {
     console.error(error);
     return res.status(500).json({
@@ -156,7 +154,6 @@ export const userLoginAccount = async (req, res) => {
     });
   }
 };
-
 
 //function to logout
 export const userLogout = async (req, res) => {
@@ -179,3 +176,43 @@ export const userLogout = async (req, res) => {
     });
   }
 };
+
+//function to see if the user is auth
+export const isUserAuth = async (req, res) => {
+  try {
+    return res.status(200).json({
+      success: true,
+      message: "User is authenticated",
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
+
+
+//function to get the user data
+export const getUserData = async(req,res) =>{
+    try {
+        const user = await Users.findById(req.userId).select('-password');
+        if(!user){
+            return res.status(400).json({success:false, message:"User not found"})
+        }
+          return res.status(200).json({
+            success: true,
+            user,
+          });
+
+    } catch (error) {
+            console.error(error);
+
+            return res.status(500).json({
+              success: false,
+              message: "Server error when getting user data",
+            });
+    }
+}
